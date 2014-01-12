@@ -1,0 +1,139 @@
+
+
+                               fix_yenc V0.12
+
+                                    by
+
+                                Bart Green
+                               (c) Sept. 2002
+
+
+This program is a companion for the PMINews newsreader to aid in the decoding
+of yenc encoded attachments.  This is a command line program but a helper icon
+could be created to launch the conversion.
+
+Distribution:
+
+  This software package is freeware. 
+
+  You are allowed to freely use and distribute the program as long as 
+
+  1.  The program or its components are not sold as a part of another 
+      program package 
+
+  2.  No fee is charged for the program other than for cost of media.
+
+  3.  The complete package is distributed unmodified 
+
+  4.  USE OF THIS PROGRAM IS ENTIRELY AT YOUR OWN RISK.
+
+
+Standard Disclaimer:
+
+  This program is free, it is supplied with no warranty, either expressed or 
+  implied. 
+
+  I disclaim all warranties for any damages, including, but not limited to, 
+  incidental or consequential damage caused directly or indirectly by this 
+  software. 
+
+  All software is supplied AS IS. You may use the program package only at 
+  your own risk. 
+
+  This program must not be used anywhere that does not allow the above 
+  limitation of liability.
+
+
+
+
+
+Requirements:
+
+  1.  This package (ydec.cmd, fix_yenc.exe)
+
+  2.  ydec-os2.exe (from Hobbes or your favorite download site)
+
+  3.  PMINews.  (Although this may have application for other newsreaders)
+
+  4.  Rexx installed on your machine. for the batch file.  (Can be run
+      from a simpler batch file if Rexx is not installed.)
+
+
+
+
+Operation:
+
+  1.  From PMINews in the post (file) list select the yenc encoded posts
+      you would like to decode.  (select all at one time using the Ctrl
+      key or shift key as you normally would) and save them all to a file.
+      You can also save the first post and append additional posts to the
+      file if this is more convenient. I usually use a filename like 00.yenc.
+      This keeps the file at or near the top of the file save list and is
+      somewhat descriptive of the file contents.
+
+  2.  Execute the ydec batch file with the name of the file you saved the
+      posts to in step 1.
+
+      Example:
+
+      [D:\Downloads]ydec 00.yenc
+
+        Where 00.yenc is the file with the posts to decode.
+        D:\Downloads is the drive and directory where the file is located
+        and where the temp file will be created.
+
+
+
+
+User Notes:
+
+  1.  The batch file as supplied will attempt to clean up the '.dec' files
+      created by yenc-os2 that are 0 bytes in length.
+
+  2.  The fixup program is run in debug (verbose) mode.  Remove the parameter
+      passed in the batch file to eliminate the extra messages.
+
+  3.  The output file is DELETED without prompting.  Please insure you select
+      a filename (like 00.yenc) such that the temp output file (00.$$$ 
+      in this example)  does not conflict with a file in the directory you 
+      may need
+
+  4.  No error checking is done for free disk space.  The temporary output
+      file will be TRUNCATED and the conversion will be incomplete.
+
+  5.  The temp file is created in the current directory.
+
+
+
+
+Installation:
+
+  Copy the ydec.cmd and fix-yenc.exe files to a directory in your path.
+
+
+
+
+
+
+Background:
+
+   I have pulled a few posts that have been encoded with yEnc and have had
+ trouble decoding them.
+
+   I have isolated the problem to an extra x'2E' character at the start
+ some of the lines.  The header for the posting indicates "X-Newsreader:
+ Forte Agent 1.92/32.572" as the encoding program.  The post is 'fixed' by
+ deleting the extra x'2E' at the start (x'2E2E...' -> x'2E...') on lines
+ that are 1 byte longer than the line= specifies in the header.
+
+   After further investigation I have found the extra x'2E' is part of the
+ NNTP-Protocol.  This requires that all DATA lines (Body) which start with
+ a DOT (x'2E') must be modified by the NNTP-Transport layer by repeating the
+ x'2E'.  A single dot in the first column is reserved by the NNTP-Transport
+ protocol as "End of Data".
+
+ When saving the post to a file (at least from the news file list) the extra
+ x'2E' character is not removed.  This utility is an attempt to correct that
+ before decoding the attachment.
+
+

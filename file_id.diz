@@ -1,0 +1,8 @@
+(V0.12) fix_yenc - FREEWARE
+This program is a companion for the PMINews
+newsreader to aid in the decoding of yenc 
+encoded attachments.  This is a command 
+line program but a helper icon could be 
+created to launch the conversion.
+Author: Bart Green <bart at together dot net>
+
